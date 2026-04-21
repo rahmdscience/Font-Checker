@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BERKAS RAHASIA: Siapa Kamu Sebenarnya?</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts: Courier Prime (UI) & Crimson Text (Narasi) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body class="flex items-center justify-center min-h-screen p-4 md:p-8">
+    <div
+      id="quiz-container"
+      class="bg-[var(--paper)] neo-border neo-shadow p-6 md:p-10 w-full max-w-2xl mx-auto relative overflow-hidden"
+    >
+      <!-- Dossier Header -->
+      <div
+        class="border-b-[3px] border-[var(--ink)] mb-8 pb-2 flex justify-between items-end"
+      >
+        <span
+          class="font-mono text-xs md:text-sm font-bold uppercase tracking-widest"
+          >[ DOKUMEN 001-X ]</span
+        >
+        <span
+          class="font-mono text-xs md:text-sm font-bold uppercase tracking-widest text-[var(--stamp-red)]"
+          >KLASIFIKASI: RAHASIA</span
+        >
+      </div>
+
+      <!-- Start Screen -->
+      <div id="start-screen" class="fade-in">
+        <div class="text-center mb-8">
+          <h1
+            class="font-serif text-4xl md:text-6xl font-bold uppercase tracking-tight leading-none text-[var(--ink)]"
+          >
+            BERKAS RAHASIA:<br />Siapa Kamu<br />Sebenarnya?
+          </h1>
+        </div>
+        <div
+          class="border-y-[3px] border-[var(--ink)] py-6 mb-8 bg-[var(--paper-dot)] px-4"
+        >
+          <p
+            class="font-serif text-lg md:text-xl text-center text-[var(--ink)] font-semibold leading-relaxed"
+          >
+            Jawab 10 interogasi mendalam untuk membongkar identitas font yang
+            tersembunyi dalam profil psikologismu. Kejujuran adalah kewajiban.
+          </p>
+        </div>
+        <button
+          id="start-btn"
+          class="neo-btn neo-btn-primary w-full py-5 text-xl tracking-widest"
+        >
+          [ BUKA ARSIP SEKARANG ]
+        </button>
+      </div>
+
+      <!-- Question Screen -->
+      <div id="question-screen" class="hidden">
+        <!-- Progress Bar -->
+        <div class="mb-8 neo-border p-3 bg-white">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-mono text-xs font-bold uppercase tracking-wider"
+              >STATUS INTEROGASI</span
+            >
+            <span
+              id="progress-text"
+              class="font-mono text-xs font-bold tracking-wider"
+            ></span>
+          </div>
+          <div class="w-full h-4 neo-border-thin bg-[var(--paper-dot)] p-[2px]">
+            <div
+              id="progress-bar"
+              class="bg-[var(--ink)] h-full w-0 transition-all duration-150 ease-linear"
+            ></div>
+          </div>
+        </div>
+
+        <div id="question-wrapper" class="relative">
+          <h2
+            id="question-text"
+            class="font-serif text-2xl md:text-3xl font-bold text-center mb-8 min-h-[90px] flex items-center justify-center leading-snug border-b-[2px] border-dashed border-[var(--ink)] pb-6"
+          ></h2>
+          <div id="answers-container" class="space-y-4"></div>
+        </div>
+      </div>
+
+      <!-- Result Screen -->
+      <div id="result-screen" class="hidden text-center">
+        <!-- Loading Spinner -->
+        <div
+          id="loading-spinner"
+          class="flex flex-col justify-center items-center h-64 space-y-6"
+        >
+          <div class="redact-loader neo-shadow"></div>
+          <p class="font-mono font-bold tracking-widest text-lg">
+            [ MEMPROSES BUKTI... ]
+          </p>
+        </div>
+
+        <!-- Result Content -->
+        <div id="result-content" class="hidden">
+          <p
+            class="font-mono text-sm font-bold uppercase tracking-widest border-b-[2px] border-[var(--ink)] inline-block pb-1 mb-6"
+          >
+            KESIMPULAN PENYELIDIKAN:
+          </p>
+
+          <div class="neo-border bg-white p-6 mb-8 relative">
+            <div
+              class="absolute top-0 right-0 bg-[var(--stamp-red)] text-white font-mono text-xs px-2 py-1 neo-border-thin transform translate-x-2 -translate-y-2"
+            >
+              DIKETAHUI
+            </div>
+            <h1
+              id="result-title"
+              class="text-4xl md:text-5xl font-bold my-4 min-h-[60px] text-[var(--stamp-red)] leading-tight uppercase underline decoration-[var(--ink)] decoration-4 underline-offset-8"
+            ></h1>
+            <p
+              id="result-description"
+              class="text-lg md:text-xl mt-6 mb-2 text-left font-serif leading-relaxed border-t-[2px] border-dashed border-[var(--ink)] pt-4"
+            ></p>
+          </div>
+
+          <!-- Color Palette -->
+          <div class="mb-8 p-4 neo-border bg-[var(--paper-dot)]">
+            <p class="font-mono text-sm font-bold uppercase mb-4 text-left">
+              >> BARANG BUKTI: PALET WARNA
+            </p>
+            <div
+              id="color-palette-container"
+              class="flex justify-center gap-3"
+            ></div>
+          </div>
+
+          <!-- Score Chart -->
+          <div class="mb-8 p-4 neo-border bg-white">
+            <p class="font-mono text-sm font-bold uppercase mb-4 text-left">
+              >> ANALISIS PSIKOLOGIS
+            </p>
+            <canvas id="score-chart" class="mt-2"></canvas>
+          </div>
+
+          <!-- Share Actions -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            <a
+              id="share-twitter"
+              href="#"
+              target="_blank"
+              class="neo-btn py-3 px-2 text-xs md:text-sm text-center"
+            >
+              <i class="fab fa-twitter mb-1 text-lg block"></i>[ TWITTER ]
+            </a>
+            <a
+              id="share-whatsapp"
+              href="#"
+              target="_blank"
+              class="neo-btn py-3 px-2 text-xs md:text-sm text-center"
+            >
+              <i class="fab fa-whatsapp mb-1 text-lg block"></i>[ WHATSAPP ]
+            </a>
+            <button
+              id="share-instagram-btn"
+              class="neo-btn py-3 px-2 text-xs md:text-sm"
+            >
+              <i class="fab fa-instagram mb-1 text-lg block"></i>[ INSTAGRAM ]
+            </button>
+            <button
+              id="copy-link-btn"
+              class="neo-btn py-3 px-2 text-xs md:text-sm"
+            >
+              <i class="fas fa-link mb-1 text-lg block"></i>[ SALIN LINK ]
+            </button>
+          </div>
+
+          <button
+            id="restart-btn"
+            class="neo-btn neo-btn-stamp w-full py-5 text-xl tracking-widest"
+          >
+            [ TUTUP KASUS & ULANGI ]
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <a
+        href="https://www.instagram.com/rahmdsai"
+        target="_blank"
+        class="block text-center font-mono font-bold text-xs mt-10 uppercase tracking-widest border-t-[3px] border-[var(--ink)] pt-4 hover:bg-[var(--ink)] hover:text-[var(--paper)] transition-colors p-2"
+      >
+        <i class="fas fa-fingerprint mr-2"></i> ARCHIVIST: RAHMAD SAINS
+      </a>
+    </div>
+
+    <!-- Hidden clipboard helper -->
+    <textarea id="copy-helper" class="absolute left-[-9999px]"></textarea>
+
+    <!-- Application Script -->
+    <script src="script.js"></script>
+  </body>
+</html>
